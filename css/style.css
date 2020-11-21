@@ -380,7 +380,7 @@ button:focus{
 input[type="range"] {
   -webkit-appearance: none;
   -moz-appearance: none;
-  background: url(images/track.svg) no-repeat;
+  background: url(../images/track.svg) no-repeat;
   height: 100%;
   width: 100px;
   background-color: transparent;
@@ -412,7 +412,7 @@ input[type="range"]:focus {
 input[type="range"]::-moz-range-thumb {
   height: 2.8rem;
   width: 1.2rem;
-  background: url(images/seed.svg);
+  background: url(../images/seed.svg);
   border: 0;
   background-position: center;
   cursor: pointer;
@@ -424,7 +424,7 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 3rem;
   width: 16px;
-  background: url(images/seed.svg);
+  background: url(../images/seed.svg);
   background-repeat: no-repeat;
   cursor: pointer;
   margin-top: 0px;
@@ -432,7 +432,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 input[type="range"]::-ms-thumb {
   height: 3rem;
-  background: url(images/seed.svg);
+  background: url(../images/seed.svg);
   border: 0;
   background-position: center;
   cursor: pointer;
