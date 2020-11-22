@@ -145,7 +145,7 @@ var app = new Vue({
     },
     startTimer: function () {
       if (!this.timerRunning) {
-        this.timerFunctionId = setInterval(this.countDown, 100);
+        this.timerFunctionId = setInterval(this.countDown, 1000);
         this.timerRunning = true;
       } else {
         clearInterval(this.timerFunctionId);
