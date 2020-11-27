@@ -3,188 +3,43 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="vue.min.js"></script>
+    <!-- <script src="vue.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <title>Persimmon Timer</title>
-    <link rel="icon" 
-      type="image/png" 
-      href="images/favicon.png?v=2">
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link
-      href="css/all.min.css"
-      rel="stylesheet"
-    />
+    <link rel="icon" type="image/png" href="images/favicon.png?v=2" />
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/solid.css" integrity="sha384-yo370P8tRI3EbMVcDU+ziwsS/s62yNv3tgdMqDSsRSILohhnOrDNl142Df8wuHA+" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/regular.css" integrity="sha384-APzfePYec2VC7jyJSpgbPrqGZ365g49SgeW+7abV1GaUnDwW7dQIYFc+EuAuIx0c" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/fontawesome.css" integrity="sha384-ijEtygNrZDKunAWYDdV3wAZWvTHSrGhdUfImfngIba35nhQ03lSNgfTJAKaGFjk2" crossorigin="anonymous">
   </head>
 
-  <body>
+  <body class="dynamic-background">
     <script>
       //This is for Firefox's FOUC
     </script>
     <div id="app" class="app">
-      <div class="grid-container">
-        <div class="branding grid grid-hv-centered grid-branding">
-          <svg class="small" width="48px" id="logo-seeds" viewbox="0 0 26 26">
-            <path
-              id="seed"
-              fill="#FFF"
-              stroke="#transparent"
-              stroke-width="3"
-              d="M 13 0
-                     Q 9,5 13,10
-                     Q 17,5 13,0
-                      "
-            />
-            <use href="#seed" transform="rotate(45 13 13)"></use>
-            <use href="#seed" transform="rotate(90 13 13)"></use>
-            <use href="#seed" transform="rotate(135 13 13)"></use>
-            <use href="#seed" transform="rotate(180 13 13)"></use>
-            <use href="#seed" transform="rotate(225 13 13)"></use>
-            <use href="#seed" transform="rotate(270 13 13)"></use>
-            <use href="#seed" transform="rotate(315 13 13)"></use>
-          </svg>
-          <h1 class="title">Persimmon Timer</h1>
-        </div>
-
-        <div class="timer grid">
-          <div class="timer-label">
-            <h1 class="timer-label" id="timer-label">{{ timerLabel }}</h1>
-          </div>
-          <div class="timer-time-remaining">
-            <h1 class="time-left number" id="time-left">{{ timeLeft }}</h1>
-          </div>
-          <div class='timer-controls'>
-            <button
-              class='timer-control outer-button-left'
-              id="start_stop"
-              @click="startTimer"
-            >
-              <i :class="['fa', timerRunning ? 'fa-pause' : 'fa-play']"></i>
-            </button><button
-              class='timer-control outer-button-right'
-              id="reset"
-              @click="resetToInitialState"
-            >
-              <i class="fa fa-undo"></i>
-            </button>
-          </div>
-          <div class='settings-label label-bottom' @click='showSettings=!showSettings'>
-            <i :class='["fa", showSettings ? "fa-minus" : "fa-plus"]'></i>&nbsp;Settings
-          </div>
-          <div v-show='showSettings' class="timer-settings grid grid-2-rows grid-2-cols">
-            <timer-adjuster
-              :timer-running='timerRunning'
-              :current-timer-label="currentTimerLabel"
-              timer-to-adjust="session"
-              :length="timerMinutes.session"
-              @set-timer="setTimer"
-              @increment="adjustTimerLength(1, 'session')"
-              @decrement="adjustTimerLength(-1, 'session')"
-            ></timer-adjuster>
-            <timer-adjuster
-              :timer-running='timerRunning'
-              :current-timer-label="currentTimerLabel"
-              timer-to-adjust="break"
-              :length="timerMinutes.break"
-              @set-timer="setTimer"
-              @increment="adjustTimerLength(1, 'break')"
-              @decrement="adjustTimerLength(-1, 'break')"
-            ></timer-adjuster>
-            <div class="volume-control span-2 grid">
-  
-              <h2>Alarm Volume</h2>
-              
-              <div class="volume-box">
-                <button @click='incrementVolume(-0.1)'><i class="fa fa-volume-down"></i></button>
-                <div class="slider-background">
-                  <input
-                    type="range"
-                    name="volume-slider"
-                    id="volume-slider"
-                    class='volume-slider'
-                    max="1"
-                    min="0"
-                    step=".001"
-                    @input="adjustVolume()"
-                    v-model="alarmVolume"
-                  />
-                </div><button @click='incrementVolume(0.1)'>
-                <i class="fa fa-volume-up volume-icon"></i></button>
-              </div>
-            </div>
-          </div>
-          
-
-        </div>
-        <audio id="beep" ref="audio">
-          <source
-            src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"
-            type="audio/wav"
-          />
-        </audio>
-        <div class="task-area">
-          <h1>Tasks</h1>
-          
-            <div class="task-controls grid grid-hv-centered">
-              <input
-                class='task-input'
-                v-model:value="taskEntry"
-                placeholder="Enter a new task and add with the '+' button."
-                @keydown.enter="addTask"
-              />
-              <button @click="addTask">
-                <i class="fa fa-plus"></i>
-              </button>
-            </div>
-
-          <div class="table-border">
-            <div class="task-columns">
-              <div :class='[tasks.length > 0 ? "bottom-margin" : "","task-row", "header"]'>
-                <div>
-                  <a
-                    v-if="!allChecked"
-                    @click="toggleAll(true)"
-                    ><i class="far fa-square fa-fw"></i
-                  ></a>
-                  <a
-                    v-if="allChecked"
-                    @click="toggleAll(false)"
-                    ><i class="far fa-check-square fa-fw"></i
-                  ></a>
-                </div>
-                <div>Task</div>
-                <div
-                  @click="deleteCompletedTasks"
-                  :class='currentTimerLabel + "-border header-button"'
-                  title='Delete Completed Tasks'
-                >
-                  <i class="fa fa-broom fa-fw"></i>
-                </div>
-                <div :class='currentTimerLabel + "-border header-button"' @click="tasks=[]" title='Delete All Tasks'>
-                    <i class="fas fa-recycle fa-fw"></i>
-                </div>
-              </div>
-              <task-entry
-                class="task-row task fade-in"
-                v-for="(task, index) in tasks"
-                :index="index"
-                :key="index"
-                :current-timer='currentTimerLabel'
-                :is-checked="task.checked"
-                :task-text="task.text"
-                @remove-task="removeTask"
-                @task-checkbox-updated="updateTaskCheckedStatus"
-                @task-text-changed="updateTaskText(...arguments)"
-              >
-              </task-entry>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class='footer'>
-          <p class='main-footer-info'>Designed and coded by Joshua Styger.</p>
-          <p class="additional-footer-info">Based on the <a class="footer-link" target="_blank" href="https://en.wikipedia.org/wiki/Pomodoro_Technique">Pomodoro Technique</a> and done as a part of a lesson on <a class="footer-link" target="_blank" href='https://www.freecodecamp.org/learn/front-end-libraries/front-end-libraries-projects/build-a-25--5-clock'>freeCodeCamp.org</a></p>
-      </div>
+      <h1>This app requires a modern browser and javascript enabled.</h1>
     </div>
+    <footer class="footer">
+      <p class="main-footer-info">Designed and coded by Joshua Styger.</p>
+      <p class="additional-footer-info">
+        Based on the
+        <a
+          class="footer-link"
+          target="_blank"
+          href="https://en.wikipedia.org/wiki/Pomodoro_Technique"
+          >Pomodoro Technique</a
+        >
+        and done as a part of a lesson on
+        <a
+          class="footer-link"
+          target="_blank"
+          href="https://www.freecodecamp.org/learn/front-end-libraries/front-end-libraries-projects/build-a-25--5-clock"
+          >freeCodeCamp.org</a
+        >
+      </p>
+    </footer>
     <script src="main.js"></script>
   </body>
 </html>

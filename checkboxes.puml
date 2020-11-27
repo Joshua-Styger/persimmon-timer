@@ -1,7 +1,0 @@
-@startuml checkboxes
-participant App
-participant TaskRow
-participant CheckBox
-App -> TaskRow: Create. Pass Checkall
-TaskRow -> TaskRow: Has done data
-@enduml
